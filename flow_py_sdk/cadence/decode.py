@@ -18,6 +18,9 @@ def decode(obj: [dict[Any, Any]]) -> Value:
     # if there is no type key we cant decode it directly, but it could be part of a dictionary or composite or path
     if c.typeKey not in obj:
         return obj
+    # if we have nested types inside a dictionary (not caught by previous condition bc it contains a typeKey)
+    if isinstance(obj, dict):
+        return obj
 
     type_ = obj[c.typeKey]
     if type_ in _cadence_decoders:
